@@ -36,50 +36,9 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun ImageListItem(index: Int) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Image(
-            painter = rememberImagePainter(
-                data = "https://developer.android.com/images/brand/Android_Robot.png"
-            ),
-            contentDescription = "Android logo",
-            modifier = Modifier.size(50.dp)
-        )
-        Spacer(modifier = Modifier.width(10.dp))
-        Text("Item $index", style = MaterialTheme.typography.subtitle1)
-    }
-}
 
 @Composable
 fun LayoutsCodelab() {
-    val listSize = 100
-    val scrollState = rememberLazyListState()
-    val coroutineScope = rememberCoroutineScope()
-
-    Column {
-        Row{
-            Button(onClick = {
-                coroutineScope.launch {
-                    scrollState.animateScrollToItem(0)
-                }
-            }) {
-                Text("Scroll to top")
-            }
-            Button(onClick = {
-                coroutineScope.launch {
-                    scrollState.animateScrollToItem(listSize - 1)
-                }
-            }) {
-                Text("Scroll to the end")
-            }
-        }
-        LazyColumn(state = scrollState) {
-            items(listSize) {
-                ImageListItem(index = it)
-            }
-        }
-    }
 }
 
 
