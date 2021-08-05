@@ -17,6 +17,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,55 +40,43 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ImageCard(
-    painter: Painter,
-    contentDescription: String,
-    title: String,
-    modifier: Modifier = Modifier
-) {
-    Card(
-        modifier = modifier.width(165.dp),
-        shape = RoundedCornerShape(15.dp),
-        elevation = 5.dp
+fun StyledText() {
+    Box(
+        modifier = Modifier.fillMaxSize().background(Color(0xFF101010))
     ) {
-        Box(modifier = Modifier.height(200.dp)) {
-            Image(
-                painter = painter,
-                contentDescription = contentDescription,
-                contentScale = ContentScale.Crop
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(Color.Transparent, Color.Black),
-                            startY = 300f
-                        )
+        Text(
+            text = buildAnnotatedString {
+                withStyle(
+                    style = SpanStyle(
+                        color = Color.Green,
+                        fontSize = 50.sp,
                     )
-            )
-            Text(
-                text = title,
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(12.dp)
-            )
-        }
+                ) {
+                    append("J")
+                }
+                append("etpack ")
+                withStyle(
+                    style = SpanStyle(
+                        color = Color.Green,
+                        fontSize = 50.sp,
+                    )
+                ) {
+                    append("C")
+                }
+                append("ompose")
+            },
+            color = Color.White,
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold,
+            textDecoration = TextDecoration.Underline,
+            textAlign = TextAlign.Center
+        )
     }
 }
 
 @Composable
 fun CardScreen() {
-    val painter = painterResource(id = R.drawable.profile)
-    val description = "Profile"
-    val title = "Mikassa"
-    ImageCard(
-        painter = painter,
-        contentDescription = description,
-        title = title
-    )
+    StyledText()
 }
 
 @Preview
