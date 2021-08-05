@@ -3,21 +3,19 @@ package com.example.composeapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.ConstraintSet
-import androidx.constraintlayout.compose.Dimension
 import com.example.composeapplication.ui.theme.ComposeApplicationTheme
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,37 +29,25 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Constrainer() {
-    val constraints = ConstraintSet {
-        val greenBox = createRefFor("greenbox")
-        val redBox = createRefFor("redbox")
+fun Animated() {
+    var sizeState by remember { mutableStateOf(100.dp)}
+    val size by animateDpAsState(targetValue = sizeState)
 
-        constrain(greenBox) {
-            top.linkTo(parent.top)
-            start.linkTo(parent.start)
-            width = Dimension.value(100.dp)
-            height = Dimension.value(100.dp)
+    Box(
+        modifier = Modifier
+            .size(size)
+            .background(Color.Red),
+        contentAlignment = Alignment.Center
+    ) {
+        Button(onClick = { sizeState += 50.dp }) {
+            Text("Inc Size")
         }
-        constrain(redBox) {
-            top.linkTo(parent.top)
-            start.linkTo(greenBox.end)
-            width = Dimension.value(100.dp)
-            height = Dimension.value(100.dp)
-        }
-    }
-    ConstraintLayout(constraints, modifier = Modifier.fillMaxSize()) {
-        Box(
-            modifier = Modifier.background(Color.Green).layoutId("greenbox"),
-        )
-        Box(
-            modifier = Modifier.background(Color.Red).layoutId("redbox")
-        )
     }
 }
 
 @Composable
 fun CardScreen() {
-    Constrainer()
+    Animated()
 }
 
 @Preview(showBackground = true)
