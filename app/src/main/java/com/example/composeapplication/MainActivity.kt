@@ -1,14 +1,15 @@
 package com.example.composeapplication
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
@@ -47,17 +48,16 @@ fun CircularProgress(
     animDuration: Int = 1000,
     animDelay: Int = 0
 ) {
-    var animationPlayed by remember { mutableStateOf(false) }
-    val curPercentage = animateFloatAsState(
-        targetValue = if (animationPlayed) percentage else 0f,
-        tween(
-            durationMillis = animDuration,
-            delayMillis = animDelay
-        )
-    )
+    val curPercentage = remember { Animatable(0f)}
 
-    LaunchedEffect(key1 = true) {
-        animationPlayed = true
+    LaunchedEffect(key1 = percentage) {
+        curPercentage.animateTo(
+            percentage,
+            tween(
+                durationMillis = animDuration,
+                delayMillis = animDelay
+            )
+        )
     }
 
     Box( contentAlignment = Alignment.Center, modifier = Modifier.size(radius * 2f)) {
@@ -82,11 +82,19 @@ fun CircularProgress(
 
 @Composable
 fun MainScreen() {
+    var percentage by remember { mutableStateOf(0.8f)}
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        CircularProgress(percentage = 0.8f, number = 100)
+        Column() {
+            CircularProgress(percentage = percentage, number = 100)
+            Spacer(modifier = Modifier.height(20.dp))
+            Button(onClick = { percentage = 0.4f }) {
+                Text("Set Percentage")
+            }
+        }
+
     }
 }
 
