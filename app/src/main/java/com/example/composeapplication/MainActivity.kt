@@ -1,37 +1,17 @@
 package com.example.composeapplication
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.composeapplication.ui.theme.ComposeApplicationTheme
-import kotlin.random.Random
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,29 +25,52 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ColorBox() {
-    val color = remember {
-        mutableStateOf(Color.Yellow)
+fun Greeter() {
+    val scaffoldState = rememberScaffoldState()
+    var textFieldValue by remember {
+        mutableStateOf("")
     }
+    val scope = rememberCoroutineScope()
 
-    Box(
-        modifier = Modifier
-            .background(color.value)
-            .fillMaxSize()
-            .clickable {
-                color.value = Color(
-                    Random.nextFloat(),
-                    Random.nextFloat(),
-                    Random.nextFloat(),
-                    1f,
-                )
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        scaffoldState = scaffoldState
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 30.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            TextField(
+                value = textFieldValue,
+                onValueChange = {
+                    textFieldValue = it
+                }, label = {
+                    Text("Enter your name")
+                },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = {
+                    scope.launch {
+                        scaffoldState.snackbarHostState.showSnackbar(textFieldValue)
+                    }
+                },
+                modifier = Modifier.align(Alignment.End)
+            ) {
+                Text("Greet")
             }
-    )
+        }
+    }
 }
 
 @Composable
 fun CardScreen() {
-    ColorBox()
+    Greeter()
 }
 
 @Preview
