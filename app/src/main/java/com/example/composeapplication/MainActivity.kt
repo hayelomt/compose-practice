@@ -1,15 +1,19 @@
 package com.example.composeapplication
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -27,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composeapplication.ui.theme.ComposeApplicationTheme
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,43 +45,29 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun StyledText() {
-    Box(
-        modifier = Modifier.fillMaxSize().background(Color(0xFF101010))
-    ) {
-        Text(
-            text = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        color = Color.Green,
-                        fontSize = 50.sp,
-                    )
-                ) {
-                    append("J")
-                }
-                append("etpack ")
-                withStyle(
-                    style = SpanStyle(
-                        color = Color.Green,
-                        fontSize = 50.sp,
-                    )
-                ) {
-                    append("C")
-                }
-                append("ompose")
-            },
-            color = Color.White,
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold,
-            textDecoration = TextDecoration.Underline,
-            textAlign = TextAlign.Center
-        )
+fun ColorBox() {
+    val color = remember {
+        mutableStateOf(Color.Yellow)
     }
+
+    Box(
+        modifier = Modifier
+            .background(color.value)
+            .fillMaxSize()
+            .clickable {
+                color.value = Color(
+                    Random.nextFloat(),
+                    Random.nextFloat(),
+                    Random.nextFloat(),
+                    1f,
+                )
+            }
+    )
 }
 
 @Composable
 fun CardScreen() {
-    StyledText()
+    ColorBox()
 }
 
 @Preview
