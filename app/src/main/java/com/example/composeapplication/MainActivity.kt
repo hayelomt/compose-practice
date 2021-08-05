@@ -3,13 +3,19 @@ package com.example.composeapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintSet
+import androidx.constraintlayout.compose.Dimension
 import com.example.composeapplication.ui.theme.ComposeApplicationTheme
 import kotlinx.coroutines.launch
 
@@ -25,55 +31,40 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeter() {
-    val scaffoldState = rememberScaffoldState()
-    var textFieldValue by remember {
-        mutableStateOf("")
-    }
-    val scope = rememberCoroutineScope()
+fun Constrainer() {
+    val constraints = ConstraintSet {
+        val greenBox = createRefFor("greenbox")
+        val redBox = createRefFor("redbox")
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        scaffoldState = scaffoldState
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 30.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            TextField(
-                value = textFieldValue,
-                onValueChange = {
-                    textFieldValue = it
-                }, label = {
-                    Text("Enter your name")
-                },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = {
-                    scope.launch {
-                        scaffoldState.snackbarHostState.showSnackbar(textFieldValue)
-                    }
-                },
-                modifier = Modifier.align(Alignment.End)
-            ) {
-                Text("Greet")
-            }
+        constrain(greenBox) {
+            top.linkTo(parent.top)
+            start.linkTo(parent.start)
+            width = Dimension.value(100.dp)
+            height = Dimension.value(100.dp)
         }
+        constrain(redBox) {
+            top.linkTo(parent.top)
+            start.linkTo(greenBox.end)
+            width = Dimension.value(100.dp)
+            height = Dimension.value(100.dp)
+        }
+    }
+    ConstraintLayout(constraints, modifier = Modifier.fillMaxSize()) {
+        Box(
+            modifier = Modifier.background(Color.Green).layoutId("greenbox"),
+        )
+        Box(
+            modifier = Modifier.background(Color.Red).layoutId("redbox")
+        )
     }
 }
 
 @Composable
 fun CardScreen() {
-    Greeter()
+    Constrainer()
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun PreviewMessageCard() {
     ComposeApplicationTheme {
