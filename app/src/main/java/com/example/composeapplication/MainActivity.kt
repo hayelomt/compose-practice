@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
+import com.example.composeapplication.pokemonlist.PokemonListScreen
 import com.example.composeapplication.ui.theme.ComposeApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,7 +34,7 @@ fun Navigation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "pokemon_list_screen") {
         composable("pokemon_list_screen") {
-            Text("Pokemon")
+            PokemonListScreen(navController)
         }
         composable("pokemon_detail_screen/{dominantColor}/{pokemonName}",
             arguments = listOf(
