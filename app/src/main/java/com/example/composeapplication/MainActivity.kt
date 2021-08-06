@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeApplicationTheme {
-                Text("Hello World")
+                Navigation()
             }
         }
     }
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun PreviewMessageCard() {
     ComposeApplicationTheme {
-        Text("Hello World")
+        Navigation()
     }
 }
 
