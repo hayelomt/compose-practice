@@ -1,9 +1,11 @@
 package com.example.composeapplication.pokemonlist
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -31,13 +33,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltNavGraphViewModel
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.example.composeapplication.R
 import com.example.composeapplication.data.models.PokedexListEntry
 import com.example.composeapplication.ui.theme.RobotoCondensed
-import com.google.accompanist.coil.CoilImage
+//import com.google.accompanist.coil.CoilImage
 
 @Composable
 fun PokemonListScreen(
@@ -64,6 +66,8 @@ fun PokemonListScreen(
             ) {
                 // On Search
             }
+            Spacer(modifier = Modifier.height(16.dp))
+            PokemonList(navController)
         }
     }
 }
@@ -107,14 +111,41 @@ fun SearchBar(
 }
 
 @Composable
+fun PokemonList(
+    navController: NavController,
+    viewModel: PokemonListViewModel = hiltNavGraphViewModel()
+) {
+
+    val pokemonList by remember { viewModel.pokemonList }
+    val endReached by remember { viewModel.endReached }
+    val loadError by remember { viewModel.loadError }
+    val isLoading by remember { viewModel.isLoading }
+
+    LazyColumn(contentPadding = PaddingValues(16.dp)) {
+        val itemCount = if (pokemonList.size % 2 == 0) {
+            pokemonList.size / 2
+        } else {
+            pokemonList.size / 2 + 1
+        }
+        items(itemCount) {
+            if (it >= itemCount - 1 && !endReached) {
+                viewModel.loadPokemonPaginated()
+            }
+            PokedexRow(rowIndex = it, entries = pokemonList, navController = navController)
+        }
+    }
+}
+
+@Composable
 fun PokedexEntry(
     entry: PokedexListEntry,
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: PokemonListViewModel = hiltViewModel()
+    viewModel: PokemonListViewModel = hiltNavGraphViewModel()
 ) {
     val defaultDominantColor = MaterialTheme.colors.surface
     var dominantColor by remember { mutableStateOf(defaultDominantColor) }
+    val context = LocalContext.current
 
     Box(
         contentAlignment = Alignment.Center,
@@ -134,26 +165,13 @@ fun PokedexEntry(
                 navController.navigate("pokemon_detail_screen/${dominantColor.toArgb()}/${entry.pokemonName}")
             }
     ) {
+//        Log.d("POKEDEX", entry.imageUrl)
         Column {
-            CoilImage(
-                request = ImageRequest
-                    .Builder(LocalContext.current)
-                    .data(entry.imageUrl)
-                    .target {
-                        viewModel.calcDominantColor(it) { color ->
-                            dominantColor = color
-                        }
-                    }.build(),
-                contentDescription = entry.pokemonName,
-                fadeIn = true,
-                modifier = Modifier
-                    .size(120.dp)
-                    .align(Alignment.CenterHorizontally)
-            ) {
-                CircularProgressIndicator(
-                    color = MaterialTheme.colors.primary,
-                    modifier = Modifier.scale(0.5f)
-                )
+            ImageHolder(imageUrl = entry.imageUrl) {
+                Log.d("PokemonListScreen", "Calc Dominant")
+//                viewModel.calcDominantFromUrl(context, entry.imageUrl) {
+//                    dominantColor = it
+//                }
             }
             Text(
                 text = entry.pokemonName,
@@ -164,6 +182,29 @@ fun PokedexEntry(
             )
         }
     }
+}
+
+
+@Composable
+fun ImageHolder(imageUrl: String, onSuccess: () -> Unit) {
+    val painter = rememberImagePainter(
+        data = imageUrl,
+        builder = {
+            placeholder(R.drawable.placeholder)
+            crossfade(true)
+//            listener(
+//                onSuccess = { _, _ ->
+//                    onSuccess()
+//                }
+//            )
+        }
+    )
+
+    Image(
+        painter = painter,
+        contentDescription = null,
+        modifier = Modifier.size(120.dp)
+    )
 }
 
 @Composable
@@ -192,4 +233,12 @@ fun PokedexRow(
         }
         Spacer(modifier = Modifier.height(16.dp))
     }
+}
+
+@Composable
+fun RetrySection(
+    error: String,
+    onRetry: () -> Unit
+) {
+
 }
