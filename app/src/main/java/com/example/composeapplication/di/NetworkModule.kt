@@ -1,0 +1,35 @@
+package com.example.composeapplication.di
+
+import com.example.composeapplication.network.RecipeService
+import com.example.composeapplication.network.model.RecipeDtoMapper
+import com.google.gson.GsonBuilder
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
+
+    @Singleton
+    @Provides
+    fun provideRecipeMapper() = RecipeDtoMapper()
+
+    @Singleton
+    @Provides
+    fun provideRecipeService(): RecipeService = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+        .baseUrl("https://food2fork.ca/api/recipe/")
+        .build()
+        .create(RecipeService::class.java)
+
+    @Singleton
+    @Provides
+    @Named("auth_token")
+    fun provideAuthToken() = "Token 9c8b06d329136da358c2d00e76946b0111ce2c48"
+}
