@@ -9,10 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
@@ -34,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltNavGraphViewModel
 import androidx.navigation.NavController
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.example.composeapplication.R
@@ -134,8 +133,23 @@ fun PokemonList(
             PokedexRow(rowIndex = it, entries = pokemonList, navController = navController)
         }
     }
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        if (isLoading) {
+            CircularProgressIndicator(color = MaterialTheme.colors.primary)
+        }
+        if (loadError.isNotEmpty()) {
+            RetrySection(error = loadError) {
+                viewModel.loadPokemonPaginated()
+            }
+        }
+    }
 }
 
+@ExperimentalCoilApi
 @Composable
 fun PokedexEntry(
     entry: PokedexListEntry,
@@ -168,10 +182,9 @@ fun PokedexEntry(
 //        Log.d("POKEDEX", entry.imageUrl)
         Column {
             ImageHolder(imageUrl = entry.imageUrl) {
-                Log.d("PokemonListScreen", "Calc Dominant")
-//                viewModel.calcDominantFromUrl(context, entry.imageUrl) {
-//                    dominantColor = it
-//                }
+                viewModel.calcDominantFromUrl(context, entry.imageUrl) {
+                    dominantColor = it
+                }
             }
             Text(
                 text = entry.pokemonName,
@@ -185,26 +198,38 @@ fun PokedexEntry(
 }
 
 
+@ExperimentalCoilApi
 @Composable
 fun ImageHolder(imageUrl: String, onSuccess: () -> Unit) {
     val painter = rememberImagePainter(
         data = imageUrl,
         builder = {
-            placeholder(R.drawable.placeholder)
             crossfade(true)
-//            listener(
-//                onSuccess = { _, _ ->
-//                    onSuccess()
-//                }
-//            )
         }
     )
 
-    Image(
-        painter = painter,
-        contentDescription = null,
-        modifier = Modifier.size(120.dp)
-    )
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+        Image(
+            painter = painter,
+            contentDescription = null,
+            modifier = Modifier
+                .size(120.dp)
+                .align(Alignment.Center)
+        )
+
+        when (painter.state) {
+            is ImagePainter.State.Loading -> {
+                CircularProgressIndicator(Modifier.align(Alignment.Center))
+            }
+            is ImagePainter.State.Error -> {
+                Text("Image Fail")
+            }
+            is ImagePainter.State.Empty -> {}
+            is ImagePainter.State.Success -> {
+                onSuccess()
+            }
+        }
+    }
 }
 
 @Composable
@@ -240,5 +265,14 @@ fun RetrySection(
     error: String,
     onRetry: () -> Unit
 ) {
-
+    Column {
+        Text(text = error, style = TextStyle(color = Color.Red, fontSize = 18.sp))
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(
+            onClick = { onRetry() },
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text("Retry")
+        }
+    }
 }

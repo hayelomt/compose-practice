@@ -22,7 +22,10 @@ object AppModule {
     @Singleton
     @Provides
     fun providePokeApi(): PokeApi {
-        return Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(BASE_URL).build().create(PokeApi::class.java)
+        return Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BASE_URL)
+            .build()
+            .create(PokeApi::class.java)
     }
 }
