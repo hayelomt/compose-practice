@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.composeapplication.ui.theme.ComposeApplicationTheme
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +23,7 @@ class MainActivity : ComponentActivity() {
 //            }
 //        }
 
-        val countFlow = flow<String> {
+        val countFlow = flow {
             for (i in 1..10) {
                 emit("Itm $i")
                 delay(1000L)
@@ -30,6 +31,9 @@ class MainActivity : ComponentActivity() {
         }
 
         GlobalScope.launch {
+            countFlow.collect {
+                Log.d("FLOWER", it)
+            }
 //            countFlow.collect {
 //                Log.d("FLOWER", it)
 //            }
@@ -37,11 +41,11 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewMessageCard() {
-    ComposeApplicationTheme {
-        Text("Hello World")
-    }
-}
-
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewMessageCard() {
+//    ComposeApplicationTheme {
+//        Text("Hello World")
+//    }
+//}
+//
