@@ -62,5 +62,5 @@ fun RecipeCard(recipe: Recipe, onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewRecipeCard() {
-
+    RecipeCard(Recipe(title = "Brunch", rating = 5)) {}
 }
