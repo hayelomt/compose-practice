@@ -1,5 +1,15 @@
 package com.example.composeapplication.src.todo
 
-import java.util.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-data class TodoItem(val todo: String, val id: UUID = UUID.randomUUID())
+@Entity(tableName = "todo_items")
+data class TodoItem(
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    val id: Int = 0,
+
+    @ColumnInfo(name = "todo" )
+    val todo: String,
+)

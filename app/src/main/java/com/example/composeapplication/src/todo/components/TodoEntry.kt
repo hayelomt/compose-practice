@@ -57,7 +57,7 @@ fun TodoEntry(
 @Composable
 fun PreviewTodoEntry() {
     TodoEntry(
-        todoItem = TodoItem("Fix Room"),
+        todoItem = TodoItem(todo = "Fix Room"),
         isEditing = false,
         onItemClicked = {},
         onEditTextChange = {},
@@ -70,7 +70,7 @@ fun PreviewTodoEntry() {
 @Composable
 fun PreviewTodoEntryEditing() {
     TodoEntry(
-        todoItem = TodoItem("Eat"),
+        todoItem = TodoItem(todo = "Eat"),
         isEditing = true,
         onItemClicked = {},
         onEditTextChange = {},

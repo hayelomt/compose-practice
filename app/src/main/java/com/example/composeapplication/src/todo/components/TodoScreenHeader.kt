@@ -19,7 +19,7 @@ import com.example.composeapplication.src.todo.TodoItem
 fun TodoEntryInput(onAddItem: (TodoItem) -> Unit) {
     val (text, setText) = remember { mutableStateOf("") }
     val submit = {
-        onAddItem(TodoItem(text))
+        onAddItem(TodoItem( todo = text))
         setText("")
     }
 

@@ -5,7 +5,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.composeapplication.src.todo.TodoItem
 import com.example.composeapplication.src.todo.TodoViewModel
 import com.example.composeapplication.src.todo.components.TodoScreen
 

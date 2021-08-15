@@ -45,13 +45,13 @@ fun TodoScreen(
 @Preview(showBackground = true)
 @Composable
 fun PreviewTodoScreenEditing() {
-    val item1 = TodoItem("Fix Home")
+    val item1 = TodoItem(todo = "Fix Home")
     TodoScreen(
         todoList = listOf(
             item1,
-            TodoItem("Take Shower"),
-            TodoItem("Eat Lunch"),
-            TodoItem("Code ViewModel"),
+            TodoItem( todo = "Take Shower"),
+            TodoItem( todo = "Eat Lunch"),
+            TodoItem( todo = "Code ViewModel"),
         ),
         currentlyEditing = item1,
         onAddItem = {},
@@ -67,10 +67,10 @@ fun PreviewTodoScreenEditing() {
 fun PreviewTodoScreen() {
     TodoScreen(
         todoList = listOf(
-            TodoItem("Fix Home"),
-            TodoItem("Take Shower"),
-            TodoItem("Eat Lunch"),
-            TodoItem("Code ViewModel"),
+            TodoItem( todo = "Fix Home"),
+            TodoItem( todo = "Take Shower"),
+            TodoItem( todo = "Eat Lunch"),
+            TodoItem( todo = "Code ViewModel"),
         ),
         currentlyEditing = null,
         onAddItem = {},

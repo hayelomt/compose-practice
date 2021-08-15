@@ -1,6 +1,10 @@
 package com.example.composeapplication.src.todo
 
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.composeapplication.shared.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,15 +12,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TodoViewModel @Inject constructor(): ViewModel() {
-    var todoItems = mutableListOf<TodoItem>()
-        private set
+    val todoItems = mutableStateListOf<TodoItem>()
 
-    var currentEditItemIndex = -1
+    private var currentEditItemIndex by mutableStateOf(-1)
     val currentEditItem: TodoItem?
         get()  = todoItems.getOrNull(currentEditItemIndex)
 
     fun addItem(todoItem: TodoItem) {
-        Log.d(Constants.TAG, "Add Todo $todoItem")
+//        Log.d(Constants.TAG, "Add Todo $todoItem")
         todoItems.add(todoItem)
     }
 
@@ -26,7 +29,7 @@ class TodoViewModel @Inject constructor(): ViewModel() {
 
     fun onEditTextChange(todoText: String) {
         currentEditItem?.let {
-            todoItems[currentEditItemIndex] = TodoItem(todoText)
+            todoItems[currentEditItemIndex] = TodoItem(todo = todoText)
         }
     }
 
