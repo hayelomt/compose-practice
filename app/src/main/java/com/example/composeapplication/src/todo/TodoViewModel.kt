@@ -1,43 +1,48 @@
 package com.example.composeapplication.src.todo
 
-import android.util.Log
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.composeapplication.shared.utils.Constants
+import androidx.lifecycle.viewModelScope
+import com.example.composeapplication.src.todo.repository.ITodoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TodoViewModel @Inject constructor(): ViewModel() {
-    val todoItems = mutableStateListOf<TodoItem>()
+class TodoViewModel @Inject constructor(
+    private val todoRepository: ITodoRepository
+): ViewModel() {
+    val todoItems = todoRepository.getTodos()
 
-    private var currentEditItemIndex by mutableStateOf(-1)
-    val currentEditItem: TodoItem?
-        get()  = todoItems.getOrNull(currentEditItemIndex)
+    var currentEditItem: TodoItem? by mutableStateOf(null)
+        private set
 
     fun addItem(todoItem: TodoItem) {
-//        Log.d(Constants.TAG, "Add Todo $todoItem")
-        todoItems.add(todoItem)
-    }
-
-    fun onEditStart(todoItem: TodoItem) {
-        currentEditItemIndex = todoItems.indexOf(todoItem)
-    }
-
-    fun onEditTextChange(todoText: String) {
-        currentEditItem?.let {
-            todoItems[currentEditItemIndex] = TodoItem(todo = todoText)
+        viewModelScope.launch {
+            todoRepository.insertTodo(todoItem)
         }
     }
 
-    fun onEditDone() {
-        currentEditItemIndex = -1
+    fun onEditStart(todoItem: TodoItem) {
+        viewModelScope.launch {
+            todoRepository.getItem(todoItem.id).let {
+                currentEditItem = it
+            }
+        }
+    }
+
+    fun onEditDone(todoItem: TodoItem) {
+        viewModelScope.launch {
+            todoRepository.updateItem(todoItem)
+            currentEditItem = null
+        }
     }
 
     fun removeItem(todoItem: TodoItem) {
-        todoItems.remove(todoItem)
+        viewModelScope.launch {
+            todoRepository.removeItem(todoItem)
+        }
     }
 }

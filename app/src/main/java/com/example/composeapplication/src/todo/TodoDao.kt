@@ -1,9 +1,7 @@
 package com.example.composeapplication.src.todo
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface TodoDao {
@@ -12,4 +10,13 @@ interface TodoDao {
 
     @Insert
     suspend fun insertTodoItem(todoItem: TodoItem)
+
+    @Query("SELECT * FROM todo_items WHERE id = :id")
+    suspend fun getItem(id: Int): TodoItem?
+
+    @Delete
+    suspend fun deleteItem(todoItem: TodoItem)
+
+    @Update
+    suspend fun updateItem(todoItem: TodoItem)
 }

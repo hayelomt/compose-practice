@@ -8,6 +8,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,8 +21,7 @@ fun TodoEntry(
     todoItem: TodoItem,
     isEditing: Boolean,
     onItemClicked: (TodoItem) -> Unit,
-    onEditTextChange: (String) -> Unit,
-    onEditDone: () -> Unit,
+    onEditDone: (TodoItem) -> Unit,
     onRemove: (TodoItem) -> Unit
 ) {
     Column {
@@ -30,9 +31,11 @@ fun TodoEntry(
             TodoRow(todoText = todoItem.todo)
         }
         if (isEditing) {
-            TodoInput(text = todoItem.todo, onTextChange = onEditTextChange) {
+            val (text, setText) = remember { mutableStateOf(todoItem.todo) }
+
+            TodoInput(text = text, onTextChange = setText) {
                 Row {
-                    IconButton(onClick = onEditDone) {
+                    IconButton(onClick = { onEditDone(TodoItem(id = todoItem.id, todo = text)) }) {
                         Icon(
                             imageVector = Icons.Filled.Check,
                             contentDescription = "Edit",
@@ -60,7 +63,6 @@ fun PreviewTodoEntry() {
         todoItem = TodoItem(todo = "Fix Room"),
         isEditing = false,
         onItemClicked = {},
-        onEditTextChange = {},
         onEditDone = {},
         onRemove = {}
     )
@@ -73,7 +75,6 @@ fun PreviewTodoEntryEditing() {
         todoItem = TodoItem(todo = "Eat"),
         isEditing = true,
         onItemClicked = {},
-        onEditTextChange = {},
         onEditDone = {},
         onRemove = {}
     )

@@ -14,16 +14,7 @@ fun MainNavigation() {
     NavHost(navController = navController, startDestination = Screens.MainScreen ) {
         composable(Screens.MainScreen) {
             val todoViewModel: TodoViewModel = hiltViewModel()
-
-            TodoScreen(
-                todoList = todoViewModel.todoItems,
-                currentlyEditing = todoViewModel.currentEditItem,
-                onAddItem = todoViewModel::addItem,
-                onItemClicked = todoViewModel::onEditStart,
-                onEditTextChange = todoViewModel::onEditTextChange,
-                onEditDone = todoViewModel::onEditDone,
-                onRemove = todoViewModel::removeItem
-            )
+            TodoScreen(todoViewModel)
         }
     }
 }
