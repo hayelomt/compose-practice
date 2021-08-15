@@ -21,14 +21,15 @@ fun TodoEntry(
     onItemClicked: (TodoItem) -> Unit,
     onEditTextChange: (String) -> Unit,
     onEditDone: () -> Unit,
-    onRemove: () -> Unit
+    onRemove: (TodoItem) -> Unit
 ) {
     Column {
-        Box(modifier = Modifier.fillMaxWidth().clickable { onItemClicked(todoItem) }) {
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onItemClicked(todoItem) }) {
             TodoRow(todoText = todoItem.todo)
         }
         if (isEditing) {
-//            Spacer(modifier = Modifier.height(.dp))
             TodoInput(text = todoItem.todo, onTextChange = onEditTextChange) {
                 Row {
                     IconButton(onClick = onEditDone) {
@@ -39,7 +40,7 @@ fun TodoEntry(
                         )
                     }
                     Spacer(modifier = Modifier.width(4.dp))
-                    IconButton(onClick = onRemove) {
+                    IconButton(onClick = { onRemove(todoItem) }) {
                         Icon(
                             imageVector = Icons.Filled.Delete,
                             contentDescription = "Remove",

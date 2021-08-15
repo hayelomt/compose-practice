@@ -18,12 +18,12 @@ fun MainNavigation() {
 
             TodoScreen(
                 todoList = todoViewModel.todoItems,
-                currentlyEditing = null,
-                onAddItem = {},
-                onItemClicked = {},
-                onEditTextChange = {},
-                onEditDone = { /*TODO*/ },
-                onRemove = { /*TODO*/ }
+                currentlyEditing = todoViewModel.currentEditItem,
+                onAddItem = todoViewModel::addItem,
+                onItemClicked = todoViewModel::onEditStart,
+                onEditTextChange = todoViewModel::onEditTextChange,
+                onEditDone = todoViewModel::onEditDone,
+                onRemove = todoViewModel::removeItem
             )
         }
     }

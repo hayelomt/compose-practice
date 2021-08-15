@@ -18,9 +18,13 @@ import com.example.composeapplication.src.todo.TodoItem
 @Composable
 fun TodoEntryInput(onAddItem: (TodoItem) -> Unit) {
     val (text, setText) = remember { mutableStateOf("") }
+    val submit = {
+        onAddItem(TodoItem(text))
+        setText("")
+    }
 
-    TodoInput(text = text, onTextChange = setText) {
-        Button(onClick = { onAddItem(TodoItem(text)) }) {
+    TodoInput(text = text, onTextChange = setText, onImeAction = submit) {
+        Button(onClick = submit, enabled = text.isNotBlank()) {
             Text(text = "Add Item")
         }
     }

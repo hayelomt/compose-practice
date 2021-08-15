@@ -19,7 +19,7 @@ fun TodoScreen(
     onItemClicked: (TodoItem) -> Unit,
     onEditTextChange: (String) -> Unit,
     onEditDone: () -> Unit,
-    onRemove: () -> Unit,
+    onRemove: (TodoItem) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val isEditing = currentlyEditing != null
