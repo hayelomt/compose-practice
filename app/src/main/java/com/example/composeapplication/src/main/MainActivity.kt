@@ -1,4 +1,4 @@
-package com.example.composeapplication
+package com.example.composeapplication.src.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.composeapplication.src.main.navigation.MainNavigation
 import com.example.composeapplication.ui.theme.ComposeApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +14,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeApplicationTheme {
-                Text("Hello World")
+                MainNavigation()
+//                Text("Test World Preview")
             }
         }
     }
@@ -23,7 +25,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun PreviewMessageCard() {
     ComposeApplicationTheme {
-        Text("Hello World")
+        Text("Hello World Preview")
     }
 }
 
