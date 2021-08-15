@@ -44,5 +44,6 @@ class TodoViewModel @Inject constructor(
         viewModelScope.launch {
             todoRepository.removeItem(todoItem)
         }
+        currentEditItem = null
     }
 }
