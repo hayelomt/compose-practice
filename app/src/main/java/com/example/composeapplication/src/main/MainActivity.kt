@@ -1,4 +1,4 @@
-package com.example.composeapplication
+package com.example.composeapplication.src.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,9 +7,11 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.composeapplication.src.main.navigation.MainNavigation
 import com.example.composeapplication.ui.theme.ComposeApplicationTheme
-import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val rdManager: RDManager by lazy { RDManager() }
 
@@ -18,9 +20,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ComposeApplicationTheme {
-                AddData {
-                    rdManager.addDummyData()
-                }
+                MainNavigation()
+//                Text("Test World Preview")
             }
         }
     }
@@ -37,7 +38,7 @@ fun AddData(addData: () -> Unit) {
 @Composable
 fun PreviewMessageCard() {
     ComposeApplicationTheme {
-        Text("Hello World")
+        Text("Hello World Preview")
     }
 }
 
