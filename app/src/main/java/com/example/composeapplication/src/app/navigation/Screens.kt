@@ -1,4 +1,4 @@
-package com.example.composeapplication.src.main.navigation
+package com.example.composeapplication.src.app.navigation
 
 object Screens {
     const val USER_SCREEN = "UserScreen"

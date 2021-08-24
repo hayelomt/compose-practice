@@ -2,7 +2,7 @@ package com.example.composeapplication.shared
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.composeapplication.src.todo.TodoDao
+import com.example.composeapplication.src.todo.dataSource.TodoDao
 import com.example.composeapplication.src.todo.TodoItem
 
 @Database(

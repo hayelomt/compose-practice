@@ -1,4 +1,4 @@
-package com.example.composeapplication.src.main
+package com.example.composeapplication.src.app
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,20 +7,28 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.composeapplication.src.main.navigation.MainNavigation
+import com.example.composeapplication.RDManager
+import com.example.composeapplication.src.app.navigation.MainNavigation
 import com.example.composeapplication.ui.theme.ComposeApplicationTheme
+import com.google.firebase.database.DatabaseReference
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import javax.inject.Named
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val rdManager: RDManager by lazy { RDManager() }
+    @Inject @Named("TODO_REF")  lateinit var todoRef:  DatabaseReference;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             ComposeApplicationTheme {
-                MainNavigation()
+//                MainNavigation()
+                AddData {
+                    todoRef.setValue("Hello Compose")
+                }
 //                Text("Test World Preview")
             }
         }
