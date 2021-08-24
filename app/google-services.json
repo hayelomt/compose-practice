@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "740260874210",
+    "firebase_url": "https://flut-d6e5d-default-rtdb.firebaseio.com",
+    "project_id": "flut-d6e5d",
+    "storage_bucket": "flut-d6e5d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740260874210:android:f089476ce2829f36a21bbb",
+        "android_client_info": {
+          "package_name": "com.ahoonstudies.sms_manager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "740260874210-mu33q5ga7hs3i7coqh8rv0te0ndd7u90.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFg5baeC5uLrEiIyXfr0bXg2hezkuByWc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "740260874210-mu33q5ga7hs3i7coqh8rv0te0ndd7u90.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740260874210:android:d69404b1ad925dfba21bbb",
+        "android_client_info": {
+          "package_name": "com.example.composeapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "740260874210-mu33q5ga7hs3i7coqh8rv0te0ndd7u90.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFg5baeC5uLrEiIyXfr0bXg2hezkuByWc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "740260874210-mu33q5ga7hs3i7coqh8rv0te0ndd7u90.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
