@@ -25,10 +25,11 @@ class MainActivity : ComponentActivity() {
 
         val countFlow = flow {
             for (i in 1..10) {
-                emit("Itm $i")
                 delay(1000L)
+                emit("Itm $i")
             }
         }
+        
 
         GlobalScope.launch {
             countFlow.collect {
