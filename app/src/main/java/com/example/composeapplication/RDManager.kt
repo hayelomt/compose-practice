@@ -9,6 +9,6 @@ class RDManager {
 
     fun addDummyData() {
 //        databaseReference('message').setValue("Saving data on android")
-        myRef.setValue("Hello Tomorrow")
+        myRef.setValue("Hello Today")
     }
 }

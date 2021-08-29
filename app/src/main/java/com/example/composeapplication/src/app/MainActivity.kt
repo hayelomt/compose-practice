@@ -1,6 +1,7 @@
 package com.example.composeapplication.src.app
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.Button
@@ -8,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.composeapplication.RDManager
+import com.example.composeapplication.shared.utils.Constants
 import com.example.composeapplication.src.app.navigation.MainNavigation
 import com.example.composeapplication.ui.theme.ComposeApplicationTheme
 import com.google.firebase.database.DatabaseReference
@@ -27,7 +29,11 @@ class MainActivity : ComponentActivity() {
             ComposeApplicationTheme {
 //                MainNavigation()
                 AddData {
-                    todoRef.setValue("Hello Compose")
+                    todoRef.setValue("Hello Alan").addOnCompleteListener {
+                        Log.d(Constants.TAG, "Added ref ${it.result}")
+                    }.addOnFailureListener {
+                        Log.d(Constants.TAG, "ERror adding ref ${it.message}")
+                    }
                 }
 //                Text("Test World Preview")
             }
