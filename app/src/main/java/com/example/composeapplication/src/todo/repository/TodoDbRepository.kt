@@ -1,15 +1,15 @@
 package com.example.composeapplication.src.todo.repository
 
-import androidx.lifecycle.LiveData
 import com.example.composeapplication.src.todo.TodoDao
 import com.example.composeapplication.src.todo.TodoItem
+import kotlinx.coroutines.flow.Flow
 
 class TodoDbRepository(
     private val dataSource: TodoDao
 ): ITodoRepository {
     override suspend fun insertTodo(todoItem: TodoItem) = dataSource.insertTodoItem(todoItem)
 
-    override fun getTodos(): LiveData<List<TodoItem>> = dataSource.getItems()
+    override fun getTodos(): Flow<List<TodoItem>> = dataSource.getItems()
 
     override suspend fun getItem(id: Int): TodoItem? = dataSource.getItem(id)
 

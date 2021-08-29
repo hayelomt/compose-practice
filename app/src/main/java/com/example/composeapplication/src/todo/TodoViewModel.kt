@@ -3,7 +3,9 @@ package com.example.composeapplication.src.todo
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.composeapplication.src.todo.repository.ITodoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +16,7 @@ import javax.inject.Inject
 class TodoViewModel @Inject constructor(
     private val todoRepository: ITodoRepository
 ): ViewModel() {
-    val todoItems = todoRepository.getTodos()
+    val todoItems: LiveData<List<TodoItem>> = todoRepository.getTodos().asLiveData()
 
     var currentEditItem: TodoItem? by mutableStateOf(null)
         private set
