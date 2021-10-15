@@ -1,4 +1,4 @@
-package com.example.composeapplication.presentation.coindetail.components
+package com.example.composeapplication.presentation.coin_detail.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,17 +13,17 @@ import androidx.compose.ui.unit.dp
 import com.example.composeapplication.data.remote.dto.CoinDetailDto
 
 @Composable
-fun TeamListItem(
-    teamMember: CoinDetailDto.TeamMember,
-    modifier: Modifier = Modifier
-) {
-    Column(modifier = modifier, verticalArrangement = Arrangement.Center) {
+fun TeamListItem(teamMember: CoinDetailDto.TeamMember, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center
+    ) {
         Text(text = teamMember.name, style = MaterialTheme.typography.h4)
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = teamMember.position,
             style = MaterialTheme.typography.body2,
-            fontStyle = FontStyle.Italic
+            fontStyle = FontStyle.Italic,
         )
     }
 }

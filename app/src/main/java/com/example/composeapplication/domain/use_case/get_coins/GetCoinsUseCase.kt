@@ -1,9 +1,9 @@
-package com.example.composeapplication.domain.usecase.getcoins
+package com.example.composeapplication.domain.use_case.get_coins
 
 import com.example.composeapplication.common.Resource
 import com.example.composeapplication.data.remote.dto.toCoin
-import com.example.composeapplication.data.repository.CoinRepository
 import com.example.composeapplication.domain.model.Coin
+import com.example.composeapplication.domain.repository.CoinRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -17,11 +17,11 @@ class GetCoinsUseCase @Inject constructor(
         try {
             emit(Resource.Loading<List<Coin>>())
             val coins = repository.getCoins().map { it.toCoin() }
-            emit(Resource.Success<List<Coin>>(coins))
+            emit(Resource.Success(coins))
         } catch (e: HttpException) {
-            emit(Resource.Error<List<Coin>>(e.localizedMessage ?: "An unexpected error occurred"))
+            emit(Resource.Error<List<Coin>>(e.localizedMessage ?: "Unexpected error occurred"))
         } catch (e: IOException) {
-            emit(Resource.Error<List<Coin>>("Couldn't reach server"))
+            emit(Resource.Error<List<Coin>>("Connection error"))
         }
     }
 }

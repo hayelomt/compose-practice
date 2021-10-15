@@ -2,7 +2,7 @@ package com.example.composeapplication.domain.model
 
 import com.example.composeapplication.data.remote.dto.CoinDetailDto
 
-data class CoinDetail (
+data class CoinDetail(
     val coinId: String,
     val name: String,
     val description: String,

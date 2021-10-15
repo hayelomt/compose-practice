@@ -1,129 +1,101 @@
 package com.example.composeapplication.data.remote.dto
 
 
+import android.util.Log
 import com.example.composeapplication.domain.model.CoinDetail
 import com.google.gson.annotations.SerializedName
 
 data class CoinDetailDto(
-    @SerializedName("description")
-    val description: String?,
+    val description: String,
     @SerializedName("development_status")
-    val developmentStatus: String?,
+    val developmentStatus: String,
     @SerializedName("first_data_at")
-    val firstDataAt: String?,
+    val firstDataAt: String,
     @SerializedName("hardware_wallet")
-    val hardwareWallet: Boolean?,
+    val hardwareWallet: Boolean,
     @SerializedName("hash_algorithm")
-    val hashAlgorithm: String?,
-    @SerializedName("id")
-    val id: String?,
+    val hashAlgorithm: String,
+    val id: String,
     @SerializedName("is_active")
-    val isActive: Boolean?,
+    val isActive: Boolean,
     @SerializedName("is_new")
-    val isNew: Boolean?,
+    val isNew: Boolean,
     @SerializedName("last_data_at")
-    val lastDataAt: String?,
-    @SerializedName("links")
-    val links: Links?,
+    val lastDataAt: String,
+    val links: Links,
     @SerializedName("links_extended")
-    val linksExtended: List<LinksExtended?>?,
-    @SerializedName("message")
-    val message: String?,
-    @SerializedName("name")
-    val name: String?,
+    val linksExtended: List<LinksExtended>,
+    val message: String,
+    val name: String,
     @SerializedName("open_source")
-    val openSource: Boolean?,
+    val openSource: Boolean,
     @SerializedName("org_structure")
-    val orgStructure: String?,
+    val orgStructure: String,
     @SerializedName("proof_type")
-    val proofType: String?,
-    @SerializedName("rank")
-    val rank: Int?,
+    val proofType: String,
+    val rank: Int,
     @SerializedName("started_at")
-    val startedAt: String?,
-    @SerializedName("symbol")
-    val symbol: String?,
-    @SerializedName("tags")
-    val tags: List<Tag?>?,
-    @SerializedName("team")
-    val team: List<TeamMember>,
-    @SerializedName("type")
-    val type: String?,
-    @SerializedName("whitepaper")
-    val whitepaper: Whitepaper?
+    val startedAt: String,
+    val symbol: String,
+    val tags: List<Tag>?,
+    val team: List<TeamMember>?,
+    val type: String,
+    val whitepaper: Whitepaper
 ) {
     data class Links(
-        @SerializedName("explorer")
-        val explorer: List<String?>?,
-        @SerializedName("facebook")
-        val facebook: List<String?>?,
-        @SerializedName("reddit")
-        val reddit: List<String?>?,
+        val explorer: List<String>,
+        val facebook: List<String>,
+        val reddit: List<String>,
         @SerializedName("source_code")
-        val sourceCode: List<String?>?,
-        @SerializedName("website")
-        val website: List<String?>?,
-        @SerializedName("youtube")
-        val youtube: List<String?>?
+        val sourceCode: List<String>,
+        val website: List<String>,
+        val youtube: List<String>
     )
 
     data class LinksExtended(
-        @SerializedName("stats")
-        val stats: Stats?,
-        @SerializedName("type")
-        val type: String?,
-        @SerializedName("url")
-        val url: String?
+        val stats: Stats,
+        val type: String,
+        val url: String
     ) {
         data class Stats(
-            @SerializedName("contributors")
-            val contributors: Int?,
-            @SerializedName("followers")
-            val followers: Int?,
-            @SerializedName("stars")
-            val stars: Int?,
-            @SerializedName("subscribers")
-            val subscribers: Int?
+            val contributors: Int,
+            val followers: Int,
+            val stars: Int,
+            val subscribers: Int
         )
     }
 
     data class Tag(
         @SerializedName("coin_counter")
-        val coinCounter: Int?,
+        val coinCounter: Int,
         @SerializedName("ico_counter")
-        val icoCounter: Int?,
-        @SerializedName("id")
-        val id: String?,
-        @SerializedName("name")
-        val name: String?
+        val icoCounter: Int,
+        val id: String,
+        val name: String
     )
 
     data class TeamMember(
-        @SerializedName("id")
-        val id: String?,
-        @SerializedName("name")
+        val id: String,
         val name: String,
-        @SerializedName("position")
         val position: String
     )
 
     data class Whitepaper(
-        @SerializedName("link")
-        val link: String?,
-        @SerializedName("thumbnail")
-        val thumbnail: String?
+        val link: String,
+        val thumbnail: String
     )
 }
 
-fun CoinDetailDto.toCoinDetail() : CoinDetail {
+fun CoinDetailDto.toCoinDetail(): CoinDetail {
+//    Log.d("CRYPTOAPP", "$id $name $description $symbol $rank $isActive $tags $teamMember")
     return CoinDetail(
-        coinId = id!!,
-        name = name!!,
-        description = description!!,
-        symbol = symbol!!,
-        rank = rank!!,
-        isActive = isActive!!,
-        tags = tags!!.map{ it!!.name!! },
-        team = team
+        coinId = id,
+        name = name,
+        description = description,
+        symbol = symbol,
+        rank = rank,
+        isActive = isActive,
+        tags = tags?.let { it.map { tag -> tag.name } } ?: emptyList(),
+        team = team ?: emptyList()
     )
 }

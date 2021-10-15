@@ -1,13 +1,13 @@
-package com.example.composeapplication.presentation.coindetail
+package com.example.composeapplication.presentation.coin_detail
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import android.util.Log
+import androidx.compose.runtime.*
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.composeapplication.common.Constants
 import com.example.composeapplication.common.Resource
-import com.example.composeapplication.domain.usecase.getcoin.GetCoinUseCase
-import com.example.composeapplication.presentation.coinlist.CoinListState
+import com.example.composeapplication.domain.use_case.get_coin.GetCoinUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -16,13 +16,14 @@ import javax.inject.Inject
 @HiltViewModel
 class CoinDetailViewModel @Inject constructor(
     private val getCoinUseCase: GetCoinUseCase,
-    savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle
 ): ViewModel() {
     private val _state = mutableStateOf(CoinDetailState())
-    val state: State<CoinDetailState> = _state;
+    val state: State<CoinDetailState> = _state
 
     init {
-        savedStateHandle.get<String>("coinId")?.let { coinId ->
+        Log.d("CRYPTOAPP", "${savedStateHandle.get<String>(Constants.PARAM_COIN_ID)} ${Constants.PARAM_COIN_ID}")
+        savedStateHandle.get<String>(Constants.PARAM_COIN_ID)?.let { coinId ->
             getCoin(coinId)
         }
     }
@@ -34,7 +35,7 @@ class CoinDetailViewModel @Inject constructor(
                     _state.value = CoinDetailState(coin = result.data)
                 }
                 is Resource.Error -> {
-                    _state.value = CoinDetailState(error = result.message ?: "Unexpected error")
+                    _state.value = CoinDetailState(error = result.message ?: "UnExpected error")
                 }
                 is Resource.Loading -> {
                     _state.value = CoinDetailState(isLoading = true)

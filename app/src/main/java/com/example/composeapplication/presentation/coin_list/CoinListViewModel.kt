@@ -1,11 +1,10 @@
-package com.example.composeapplication.presentation.coinlist
+package com.example.composeapplication.presentation.coin_list
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composeapplication.common.Resource
-import com.example.composeapplication.domain.usecase.getcoins.GetCoinsUseCase
+import com.example.composeapplication.domain.use_case.get_coins.GetCoinsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -14,9 +13,9 @@ import javax.inject.Inject
 @HiltViewModel
 class CoinListViewModel @Inject constructor(
     private val getCoinsUseCase: GetCoinsUseCase
-) : ViewModel() {
+): ViewModel() {
     private val _state = mutableStateOf(CoinListState())
-    val state: State<CoinListState> = _state;
+    val state: State<CoinListState> = _state
 
     init {
         getCoins()
@@ -29,7 +28,7 @@ class CoinListViewModel @Inject constructor(
                     _state.value = CoinListState(coins = result.data ?: emptyList())
                 }
                 is Resource.Error -> {
-                    _state.value = CoinListState(error = result.message ?: "Unexpected error")
+                    _state.value = CoinListState(error = result.message ?: "UnExpected error")
                 }
                 is Resource.Loading -> {
                     _state.value = CoinListState(isLoading = true)

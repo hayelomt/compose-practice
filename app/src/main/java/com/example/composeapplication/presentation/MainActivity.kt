@@ -11,8 +11,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.composeapplication.presentation.coindetail.CoinDetailScreen
-import com.example.composeapplication.presentation.coinlist.CoinListScreen
+import com.example.composeapplication.presentation.coin_detail.CoinDetailScreen
+import com.example.composeapplication.presentation.coin_list.CoinListScreen
 import com.example.composeapplication.presentation.ui.theme.ComposeApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,9 +24,12 @@ class MainActivity : ComponentActivity() {
             ComposeApplicationTheme {
                 Surface(color = MaterialTheme.colors.background) {
                     val navController = rememberNavController()
-                    NavHost(navController, startDestination = Screen.CoinListScreen.route) {
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screen.CoinListScreen.route,
+                    ) {
                         composable(Screen.CoinListScreen.route) {
-                            CoinListScreen(navController)
+                            CoinListScreen(navController = navController)
                         }
                         composable(Screen.CoinDetailScreen.route + "/{coinId}") {
                             CoinDetailScreen()

@@ -1,6 +1,5 @@
-package com.example.composeapplication.presentation.coindetail.components
+package com.example.composeapplication.presentation.coin_detail.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -17,15 +16,17 @@ fun CoinTag(tag: String) {
     Box(
         modifier = Modifier
             .border(
-                BorderStroke(1.dp, MaterialTheme.colors.primary),
-                RoundedCornerShape(100.dp)
+                width = 1.dp,
+                color = MaterialTheme.colors.primary,
+                shape = RoundedCornerShape(100.dp)
             )
             .padding(10.dp),
     ) {
-        Text(text = tag,
+        Text(
+            text = tag,
             color = MaterialTheme.colors.primary,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.body2
+            style = MaterialTheme.typography.body2,
         )
     }
 }

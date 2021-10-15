@@ -1,4 +1,4 @@
-package com.example.composeapplication.presentation.coinlist
+package com.example.composeapplication.presentation.coin_list
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,12 +17,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.composeapplication.presentation.Screen
-import com.example.composeapplication.presentation.coinlist.components.CoinListItem
+import com.example.composeapplication.presentation.coin_list.components.CoinListItem
 
 @Composable
 fun CoinListScreen(
     navController: NavController,
-    viewModel: CoinListViewModel = hiltViewModel(),
+    viewModel: CoinListViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
     Box(modifier = Modifier.fillMaxSize()) {
@@ -32,10 +32,11 @@ fun CoinListScreen(
                     coin = coin,
                     onItemClick = {
                         navController.navigate(Screen.CoinDetailScreen.route + "/${coin.id}")
-                    }
+                    },
                 )
             }
         }
+
         if (state.error.isNotBlank()) {
             Text(
                 text = state.error,
@@ -44,7 +45,7 @@ fun CoinListScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
-                    .align(Alignment.Center)
+                    .align(Alignment.Center),
             )
         }
         if (state.isLoading) {
